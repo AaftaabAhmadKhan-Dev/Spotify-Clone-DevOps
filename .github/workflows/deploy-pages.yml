@@ -1,0 +1,41 @@
+name: Deploy to Github Pages
+
+# Wake up on every push to main
+on:
+    push:
+        branches: ["main"]
+
+# Permissions this robot needs to publish to pages
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Never run two deploys at the same time
+concurrency:
+    group: "pages"
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        # This records the live url in Github'd UI
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url}}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Pages
+              uses: actions/configure-pages@v5
+
+            - name: Upload website files
+              uses: actions/upload-pages-artifact@v3
+              with:
+                path: "."
+            
+            - name: Deploy to github pages
+              id: deployment
+              uses: actions/deploy-pages@v4
+
