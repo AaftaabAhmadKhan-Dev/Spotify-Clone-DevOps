@@ -5,7 +5,8 @@ implement a **complete, production-grade DevOps pipeline** — from source contr
 the way to a live, monitored, publicly accessible deployment.
 
 ## 🚀 Live Demo
-_Coming soon — link will appear here once deployed._
+👉 **[https://aaftaabahmadkhan-dev.github.io/Spotify-Clone-DevOps/](https://aaftaabahmadkhan-dev.github.io/Spotify-Clone-DevOps/)**
+
 
 ## 🛠️ Tech & DevOps Stack
 | Area | Tools |
