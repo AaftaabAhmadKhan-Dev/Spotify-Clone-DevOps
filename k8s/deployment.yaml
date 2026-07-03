@@ -1,0 +1,40 @@
+# --- Deployment : run and babysit copies of our container
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: spotify
+ labels:
+  app: spotify
+
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   app: spotify
+  
+ template:
+   metadata:
+    labels:
+     app: spotify
+
+   spec:
+     containers:
+      - name: spotify
+        image: spotify-clone:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+         - containerPort: 80
+
+---
+# ----- SERVICE:- One stable address that load balances the pods
+apiVersion: v1
+kind: Service
+metadata:
+ name: spotify-service
+spec:
+ selector:
+  app: spotify
+ ports:
+  - port: 80
+    targetPort: 80
+ type: ClusterIP
