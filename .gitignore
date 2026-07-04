@@ -20,3 +20,11 @@ secrets/
 *.log
 tmp/
 temp/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
+*-config
