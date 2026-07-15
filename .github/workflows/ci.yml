@@ -1,4 +1,4 @@
-name: CI - Build & Push Docker Image
+name: CI - Build Scan & Push Docker Image
 
 # When the robot wakes up
 on:
@@ -13,9 +13,12 @@ permissions:
     packages: write
 
 jobs:
-    build-and-push:
+    build-scan-push:
         #The free cloud computer to run on
         runs-on: ubuntu-latest
+
+        env:
+            IMAGE_NAME: ghcr.io/aaftaabahmadkhan-dev/spotify-clone:latest
 
         steps:
             #1. Download your repo code onto the runner
@@ -30,10 +33,25 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
 
-            #3. Build the docker image and push it to storage
-            - name: Build and push
-              uses: docker/build-push-action@v6
+            #3. Build the docker image
+            - name: Build Docker Image
+              run: |
+               docker build -t $IMAGE_NAME .
+            # Scan Image with Trivy
+            - name: Scan Docker Image
+              uses: aquasecurity/trivy-action@0.33.1
               with:
-                context: .
-                push: true
-                tags: ghcr.io/aaftaabahmadkhan-dev/spotify-clone:latest
+                image-ref: ${{env.IMAGE_NAME}}
+                format: table
+                exit-code: "1"
+                igonore-unfixed: true
+                severity: High, Critical
+                trivyignores: .trivyignore
+
+            # Push Image only if scan passes
+            - name: Push Docker Image
+              run:
+                docker push $IMAGE_NAME
+                 
+
+              

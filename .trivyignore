@@ -1,0 +1,6 @@
+# Accepted risks — reviewed 2026-07-06
+# These CRITICALs live in Go binaries baked into the nginx base image.
+# Our static site never executes them, and there's no fix we can apply
+# (the base-image maintainer must rebuild them). Accepted & tracked.
+CVE-2026-33186
+CVE-2025-68121

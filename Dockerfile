@@ -1,5 +1,8 @@
 #1 A readymade box that already runs Nginx web server inside it
-FROM nginx:1.27-alpine
+FROM nginx:1.29-alpine
+
+# Patch all os packages to latest security fixes
+RUN apk update && apk upgrade --no-cache
 
 #2 Copy all out website files into the folder where Nginx looks for web pages
 COPY . /usr/share/nginx/html
