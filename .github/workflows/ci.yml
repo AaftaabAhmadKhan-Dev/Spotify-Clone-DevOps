@@ -39,19 +39,19 @@ jobs:
                docker build -t $IMAGE_NAME .
             # Scan Image with Trivy
             - name: Scan Docker Image
-              uses: aquasecurity/trivy-action@0.33.1
+              uses: aquasecurity/trivy-action@v0.36.0
               with:
-                image-ref: ${{env.IMAGE_NAME}}
-                format: table
-                exit-code: "1"
-                igonore-unfixed: true
-                severity: High, Critical
-                trivyignores: .trivyignore
+               image-ref: ${{ env.IMAGE_NAME }}
+               format: table
+               exit-code: 1
+               ignore-unfixed: true
+               severity: HIGH,CRITICAL
+               trivyignores: .trivyignore
 
             # Push Image only if scan passes
             - name: Push Docker Image
               run:
-                docker push $IMAGE_NAME
-                 
+               docker push $IMAGE_NAME
+
 
               
